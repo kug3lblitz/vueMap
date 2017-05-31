@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title></title>
+</head>
+<body>
+<div id="vue-map">
+  <input id="autocompleteInput" type="text"
+        placeholder="Enter a location">
+  <div id="map_canvas"></div>
+  <h2 v-if="noVisibleMarkers">There are no facilities in the current view. Listing facilities in 400km radius from your location:</h2>
+  <ul class="" id="results-list" v-if="currentZoom > zoomTreshold">
+    <li v-for="(marker, i) in visibleMarkers">
+      <strong>{{ marker.name }}</strong><br/>
+      <span v-if="currentLocation">distance from your location: {{ Math.round(marker.distanceFromCenter / 1000) + ' km' }}<br/></span>
+      <span>lat: {{ marker.position.lat() }}</span><br/>
+      <span>lng: {{ marker.position.lng() }}</span>
+      <button v-bind:data-id='marker.id' @click='centerMapToMarker'>show on map</button>
+    </li>
+  </ul>
+  <h2 v-else>Your viewport contains {{ visibleMarkers.length }} facilities, if you want to show specific facilities, please zoom in or type your request into the search field.</h2>
+</div>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFzFiGwSiHveD3rFTxc54ScLqEk1PTKto&libraries=places,geometry"></script>
+<!--<script src="node_modules/jquery/dist/jquery.js"></script>-->
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
+
